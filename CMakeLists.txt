@@ -1209,6 +1209,12 @@ if(WITH_TOOLS)
   target_link_libraries(db_bench${ARTIFACT_SUFFIX} gtest ${ROCKSDB_STATIC_LIB})
 
   if(WITH_ZENFS)
+    # WITH_ZENFS_ASYNC_METAZONE_ROLLOVER is an experimental feature for async metazone rolloever
+    option(WITH_ZENFS_ASYNC_METAZONE_ROLLOVER "build with zenfs refactor" OFF)
+    if(WITH_ZENFS_ASYNC_METAZONE_ROLLOVER)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DWITH_ZENFS_ASYNC_METAZONE_ROLLOVER")
+    endif()
+
     include_directories(third-party/zenfs)
     add_executable(zenfs${ARTIFACT_SUFFIX} third-party/zenfs/util/zenfs.cc
             $<TARGET_OBJECTS:testharness>)
